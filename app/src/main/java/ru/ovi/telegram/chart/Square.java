@@ -12,13 +12,12 @@ public class Square {
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
             // the coordinates of the objects that use this vertex shader
-            "uniform mat4 uMVPMatrix;" +
-                    "attribute vec4 vPosition;" +
+            "attribute vec4 vPosition;" +
                     "void main() {" +
                     // The matrix must be included as a modifier of gl_Position.
                     // Note that the uMVPMatrix factor *must be first* in order
                     // for the matrix multiplication product to be correct.
-                    "  gl_Position = uMVPMatrix * vPosition;" +
+                    "  gl_Position =  vPosition;" +
                     "}";
     private final String fragmentShaderCode =
             "precision mediump float;" +
@@ -31,7 +30,6 @@ public class Square {
     private final int mProgram;
     private int mPositionHandle;
     private int mColorHandle;
-    private int mMVPMatrixHandle;
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
     static float squareCoords[] = {
@@ -76,13 +74,7 @@ public class Square {
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
 
-    /**
-     * Encapsulates the OpenGL ES instructions for drawing this shape.
-     *
-     * @param mvpMatrix - The Model View Project matrix in which to draw
-     *                  this shape.
-     */
-    public void draw(float[] mvpMatrix) {
+    public void draw() {
         // Add program to OpenGL environment
         GLES20.glUseProgram(mProgram);
         // get handle to vertex shader's vPosition member
@@ -98,11 +90,7 @@ public class Square {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
         // Set color for drawing the triangle
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-        // get handle to shape's transformation matrix
-        mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-        MyGLRenderer.checkGlError("glGetUniformLocation");
         // Apply the projection and view transformation
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
         MyGLRenderer.checkGlError("glUniformMatrix4fv");
         // Draw the square
         GLES20.glDrawElements(
