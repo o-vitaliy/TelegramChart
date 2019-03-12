@@ -52,10 +52,10 @@ public class Line {
         vertexBuffer.put(squareCoords);
         vertexBuffer.position(0);
         // prepare shaders and OpenGL program
-        int vertexShader = MyGLRenderer.loadShader(
+        int vertexShader = ChartUtils.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(
+        int fragmentShader = ChartUtils.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
         mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
@@ -86,7 +86,7 @@ public class Line {
         int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
 
         GLES20.glDrawArrays(GLES20.GL_LINES, 0, vertexCount);
-        MyGLRenderer.checkGlError("glDrawArrays GL_LINES");
+        ChartUtils.checkGlError("glDrawArrays GL_LINES");
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }

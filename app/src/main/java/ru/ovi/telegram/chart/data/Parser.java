@@ -19,7 +19,7 @@ public class Parser {
     private final String COLORS = "colors";
     private final String COLUMNS = "columns";
 
-    public ChartData[] parse(String json) throws JSONException {
+    public List<ChartData> parse(String json) throws JSONException {
         final List<ChartData> chartDataList = new ArrayList<>();
         final JSONArray rootJsonChartArray = new JSONArray(json);
         for (int rootJsonChartIndex = 0; rootJsonChartIndex < rootJsonChartArray.length(); rootJsonChartIndex++) {
@@ -91,7 +91,7 @@ public class Parser {
 
         }
 
-        return chartDataList.toArray(new ChartData[0]);
+        return chartDataList;
     }
 
 }

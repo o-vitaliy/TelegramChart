@@ -4,31 +4,30 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import ru.ovi.telegram.chart.data.ChartData;
 
 public class ChartView extends GLSurfaceView {
-    private final MyGLRenderer mRenderer;
-
-    public ChartView(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
-        // Create an OpenGL ES 2.0 context.
-        setEGLContextClientVersion(2);
-        // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new MyGLRenderer();
-        setRenderer(mRenderer);
-        // Render the view only when there is a change in the drawing data
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-    }
 
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
     private float mPreviousX;
     private float mPreviousY;
 
+    private MyGLRenderer renderer;
+
+    public ChartView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        setEGLContextClientVersion(2);
+
+        // Set the Renderer for drawing on the GLSurfaceView
+        renderer = new MyGLRenderer();
+        setRenderer(renderer);
+        // Render the view only when there is a change in the drawing data
+        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
-        float x = e.getX();
+       /* float x = e.getX();
         float y = e.getY();
         switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
@@ -42,13 +41,19 @@ public class ChartView extends GLSurfaceView {
                 if (x < getWidth() / 2) {
                     dy = dy * -1;
                 }
-                mRenderer.setAngle(
-                        mRenderer.getAngle() +
+                renderer.setAngle(
+                        renderer.getAngle() +
                                 ((dx + dy) * TOUCH_SCALE_FACTOR));  // = 180.0f / 320
                 requestRender();
         }
         mPreviousX = x;
-        mPreviousY = y;
+        mPreviousY = y;*/
         return true;
+    }
+
+
+    public void setChartData(ChartData chartData) {
+        renderer.setChartData(chartData);
+        requestRender();
     }
 }

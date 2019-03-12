@@ -8,6 +8,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -22,10 +23,10 @@ public class ParserTest {
         final Parser parser = new Parser();
 
 
-        final ChartData[] charts = parser.parse(result);
-        assertEquals(5, charts.length);
+        final List<ChartData> charts = parser.parse(result);
+        assertEquals(5, charts.size());
 
-        final ChartData chart = charts[0];
+        final ChartData chart = charts.get(0);
         assertEquals(112, chart.getAbscissa().getValues().length);
         assertEquals(2, chart.getOrdinates().length);
         assertEquals(112, chart.getOrdinates()[0].getValues().length);

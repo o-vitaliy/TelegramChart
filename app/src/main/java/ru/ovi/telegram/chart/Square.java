@@ -62,10 +62,10 @@ public class Square {
         drawListBuffer.put(drawOrder);
         drawListBuffer.position(0);
         // prepare shaders and OpenGL program
-        int vertexShader = MyGLRenderer.loadShader(
+        int vertexShader = ChartUtils.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(
+        int fragmentShader = ChartUtils.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
         mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
@@ -91,7 +91,7 @@ public class Square {
         // Set color for drawing the triangle
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
         // Apply the projection and view transformation
-        MyGLRenderer.checkGlError("glUniformMatrix4fv");
+        ChartUtils.checkGlError("glUniformMatrix4fv");
         // Draw the square
         GLES20.glDrawElements(
                 GLES20.GL_TRIANGLES, drawOrder.length,

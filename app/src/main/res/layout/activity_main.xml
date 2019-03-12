@@ -6,5 +6,6 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <ru.ovi.telegram.chart.ChartView android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <ru.ovi.telegram.chart.ChartView
+            android:id="@+id/chartView" android:layout_width="match_parent" android:layout_height="match_parent"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -58,9 +58,9 @@ public class Triangle {
         // set the buffer to read the first coordinate
         vertexBuffer.position(0);
         // prepare shaders and OpenGL program
-        int vertexShader = MyGLRenderer.loadShader(
+        int vertexShader = ChartUtils.loadShader(
                 GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-        int fragmentShader = MyGLRenderer.loadShader(
+        int fragmentShader = ChartUtils.loadShader(
                 GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
         mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
@@ -85,7 +85,7 @@ public class Triangle {
         // Set color for drawing the triangle
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
         // get handle to shape's transformation matrix
-        MyGLRenderer.checkGlError("glGetUniformLocation");
+        ChartUtils.checkGlError("glGetUniformLocation");
         // Draw the triangle
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
 
