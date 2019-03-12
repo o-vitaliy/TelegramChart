@@ -27,13 +27,13 @@ public class ParserTest {
         assertEquals(5, charts.size());
 
         final ChartData chart = charts.get(0);
-        assertEquals(112, chart.getAbscissa().getValues().length);
-        assertEquals(2, chart.getOrdinates().length);
-        assertEquals(112, chart.getOrdinates()[0].getValues().length);
-        assertEquals("#0", chart.getOrdinates()[0].getName());
-        assertEquals(Color.parseColor("#3DC23F"), chart.getOrdinates()[0].getColor());
-        assertEquals(112, chart.getOrdinates()[1].getValues().length);
-        assertEquals("#1", chart.getOrdinates()[1].getName());
-        assertEquals(Color.parseColor("#F34C44"), chart.getOrdinates()[1].getColor());
+        assertEquals(112, chart.getAbscissa().getValues().size());
+        assertEquals(2, chart.getOrdinates().size());
+        assertEquals(112, chart.getOrdinates().get(0).getValues().size());
+        assertEquals("#0", chart.getOrdinates().get(0).getName());
+        assertEquals(Color.parseColor("#3DC23F"), chart.getOrdinates().get(0).getColor());
+        assertEquals(112, chart.getOrdinates().get(1).getValues().size());
+        assertEquals("#1", chart.getOrdinates().get(1).getName());
+        assertEquals(Color.parseColor("#F34C44"), chart.getOrdinates().get(1).getColor());
     }
 }

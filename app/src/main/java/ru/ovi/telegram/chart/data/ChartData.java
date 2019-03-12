@@ -1,19 +1,21 @@
 package ru.ovi.telegram.chart.data;
 
-public class ChartData {
-    private final Line abscissa;
-    private final Line[] ordinates;
+import java.util.List;
 
-    public ChartData(Line abscissa, Line[] ordinates) {
+public class ChartData {
+    private final GraphLine abscissa;
+    private final List<GraphLine> ordinates;
+
+    public ChartData(GraphLine abscissa, List<GraphLine> ordinates) {
         this.abscissa = abscissa;
         this.ordinates = ordinates;
     }
 
-    public Line getAbscissa() {
+    public GraphLine getAbscissa() {
         return abscissa;
     }
 
-    public Line[] getOrdinates() {
+    public List<GraphLine> getOrdinates() {
         return ordinates;
     }
 }

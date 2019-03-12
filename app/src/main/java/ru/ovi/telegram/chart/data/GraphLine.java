@@ -1,11 +1,13 @@
 package ru.ovi.telegram.chart.data;
 
-public class Line {
+import java.util.List;
+
+public class GraphLine {
     private final int color;
     private final String name;
-    private final double values[];
+    private final List<Double> values;
 
-    public Line(int color, String name, double[] values) {
+    public GraphLine(int color, String name, List<Double> values) {
         this.color = color;
         this.name = name;
         this.values = values;
@@ -19,7 +21,7 @@ public class Line {
         return name;
     }
 
-    public double[] getValues() {
+    public List<Double> getValues() {
         return values;
     }
 }

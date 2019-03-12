@@ -28,7 +28,7 @@ public class Parser {
             final HashMap<String, String> columnsTypes = new HashMap<>();
             final HashMap<String, String> columnsNames = new HashMap<>();
             final HashMap<String, Integer> columnsColors = new HashMap<>();
-            final HashMap<String, double[]> columnsValues = new HashMap<>();
+            final HashMap<String, List<Double>> columnsValues = new HashMap<>();
 
             final JSONObject typesJson = chartJson.getJSONObject(TYPES);
             final Iterator<String> typeKeys = typesJson.keys();
@@ -56,23 +56,23 @@ public class Parser {
                 final JSONArray columnValues = columnsJson.getJSONArray(columnIndex);
 
                 final String key = columnValues.getString(0);
-                final double values[] = new double[columnValues.length() - 1];
+                final List<Double> values = new ArrayList<>(columnValues.length() - 1);
 
                 for (int columnValueIndex = 1; columnValueIndex < columnValues.length(); columnValueIndex++) {
-                    values[columnValueIndex - 1] = columnValues.getDouble(columnValueIndex);
+                    values.add(columnValues.getDouble(columnValueIndex));
                 }
 
                 columnsValues.put(key, values);
             }
 
-            final AtomicReference<Line> abscissa = new AtomicReference<>();
-            final List<Line> ordinates = new ArrayList<>();
+            final AtomicReference<GraphLine> abscissa = new AtomicReference<>();
+            final List<GraphLine> ordinates = new ArrayList<>();
 
             Stream.of(columnsTypes).forEach(stringStringEntry -> {
                 final String column = stringStringEntry.getKey();
                 final String columnType = stringStringEntry.getValue();
 
-                final Line line = new Line(
+                final GraphLine line = new GraphLine(
                         columnsColors.containsKey(column) ? columnsColors.get(column) : 0,
                         columnsNames.get(column),
                         columnsValues.get(column)
@@ -86,7 +86,7 @@ public class Parser {
             });
 
             chartDataList.add(
-                    new ChartData(abscissa.get(), ordinates.toArray(new Line[0]))
+                    new ChartData(abscissa.get(), ordinates)
             );
 
         }
