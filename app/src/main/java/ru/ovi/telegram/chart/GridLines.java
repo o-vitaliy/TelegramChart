@@ -2,15 +2,12 @@ package ru.ovi.telegram.chart;
 
 import android.graphics.RectF;
 import android.opengl.GLES20;
-import ru.ovi.telegram.chart.data.ChartData;
-import ru.ovi.telegram.chart.data.GraphLine;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.util.List;
 
-public class HorizontalLines extends BaseChartElement {
+public class GridLines extends BaseChartElement {
     private static int STEPS = 5;
 
     float color[] = {1f, 0f, 0, 1.0f};
@@ -18,14 +15,14 @@ public class HorizontalLines extends BaseChartElement {
     private int vertexCount;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    public HorizontalLines(RectF bounds, CoordinatesConverter converter) {
-        super(bounds, converter);
+    public GridLines(RectF bounds, CoordinatesConverter converter, ChartViewModel chartViewModel) {
+        super(bounds, converter, chartViewModel);
     }
 
     @Override
     public void draw() {
         if (vertexBuffer == null) return;
-// Add program to OpenGL environment
+
         GLES20.glUseProgram(mProgram);
         int mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -40,11 +37,7 @@ public class HorizontalLines extends BaseChartElement {
     }
 
     @Override
-    public void prepareForDraw(final ChartData chartData) {
-        final List<GraphLine> lines = chartData.getOrdinates();
-        double maxValue = ChartValuesUtil.maxInLines(lines);
-        double minValue = ChartValuesUtil.minInLine(lines);
-
+    public void prepareForDraw() {
         vertexCount = STEPS;
         final float[] coordinates = new float[STEPS * COORDS_PER_VERTEX * 2];
 

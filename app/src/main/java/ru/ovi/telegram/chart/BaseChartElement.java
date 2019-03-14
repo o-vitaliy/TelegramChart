@@ -2,7 +2,6 @@ package ru.ovi.telegram.chart;
 
 import android.graphics.RectF;
 import android.opengl.GLES20;
-import ru.ovi.telegram.chart.data.ChartData;
 
 public abstract class BaseChartElement {
 
@@ -29,10 +28,12 @@ public abstract class BaseChartElement {
     protected final int mProgram;
     protected final RectF bounds;
     protected final CoordinatesConverter converter;
+    protected final ChartViewModel chartViewModel;
 
-    public BaseChartElement(RectF bounds, CoordinatesConverter converter) {
+    public BaseChartElement(RectF bounds, CoordinatesConverter converter, ChartViewModel chartViewModel) {
         this.bounds = bounds;
         this.converter = converter;
+        this.chartViewModel = chartViewModel;
 
         // prepare shaders and OpenGL program
         int vertexShader = ChartUtils.loadShader(
@@ -49,5 +50,5 @@ public abstract class BaseChartElement {
 
     public abstract void draw();
 
-    public abstract void prepareForDraw(final ChartData chartData);
+    public abstract void prepareForDraw();
 }
