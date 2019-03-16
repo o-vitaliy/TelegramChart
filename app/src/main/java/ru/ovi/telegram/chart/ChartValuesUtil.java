@@ -4,6 +4,9 @@ import android.graphics.Color;
 import com.annimon.stream.Stream;
 import ru.ovi.telegram.chart.data.GraphLine;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.List;
 
 public class ChartValuesUtil {
@@ -42,6 +45,20 @@ public class ChartValuesUtil {
                 (float) Color.blue(color) / (float) (0xFF),
                 (float) Color.alpha(color) / (float) (0xFF),
         };
+    }
+
+
+    static FloatBuffer coordinatesToBuffer(float[] coordinates){
+        // initialize vertex byte buffer for shape coordinates
+        ByteBuffer bb = ByteBuffer.allocateDirect(
+                // (# of coordinate values * 4 bytes per float)
+                coordinates.length * 4);
+        bb.order(ByteOrder.nativeOrder());
+        FloatBuffer vertexBuffer = bb.asFloatBuffer();
+        vertexBuffer.put(coordinates);
+        vertexBuffer.position(0);
+
+        return vertexBuffer;
     }
 
 

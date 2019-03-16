@@ -3,9 +3,10 @@ package ru.ovi.telegram.chart;
 import android.graphics.RectF;
 import android.opengl.GLES20;
 
-public abstract class BaseChartElement {
+public abstract class BaseChartElement extends BaseDrawingElement {
 
     static final int COORDS_PER_VERTEX = 2;
+    static final int VERTEX_STRIDE = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
@@ -26,16 +27,11 @@ public abstract class BaseChartElement {
 
 
     protected final int mProgram;
-    protected final RectF bounds;
-    protected final CoordinatesConverter converter;
-    protected final ChartViewModel chartViewModel;
+
 
     public BaseChartElement(RectF bounds, CoordinatesConverter converter, ChartViewModel chartViewModel) {
-        this.bounds = bounds;
-        this.converter = converter;
-        this.chartViewModel = chartViewModel;
-
         // prepare shaders and OpenGL program
+        super(bounds, converter, chartViewModel);
         int vertexShader = ChartUtils.loadShader(
                 GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
@@ -47,8 +43,4 @@ public abstract class BaseChartElement {
         GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
         GLES20.glLinkProgram(mProgram);
     }
-
-    public abstract void draw();
-
-    public abstract void prepareForDraw();
 }

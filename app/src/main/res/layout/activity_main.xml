@@ -7,5 +7,6 @@
         tools:context=".MainActivity">
 
     <ru.ovi.telegram.chart.ChartView
+            android:layout_margin="10dp"
             android:id="@+id/chartView" android:layout_width="match_parent" android:layout_height="match_parent"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

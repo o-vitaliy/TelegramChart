@@ -1,5 +1,6 @@
 package ru.ovi.telegram.chart;
 
+import android.graphics.Color;
 import ru.ovi.telegram.chart.data.ChartData;
 import ru.ovi.telegram.chart.data.GraphLine;
 
@@ -7,10 +8,18 @@ import java.util.List;
 
 public class ChartViewModel {
 
+    private final float gridColor[] = ChartValuesUtil.colorToFloatArray(Color.parseColor("#A0CCCCCC"));
+    private final float previewOverlayColor[] = ChartValuesUtil.colorToFloatArray(Color.parseColor("#70EEEEEE"));
+    private final float gridLineWidth = 2;
+    private final float chartLineWidth = 6;
+    private final float boundWidth = 40;
+
     private ChartData chartData;
     private boolean initialized;
     double maxValue;
     double minValue;
+    private float leftOffset = 100;
+    private float rightOffset = 200;
 
     public void init(ChartData chartData) {
         this.chartData = chartData;
@@ -34,7 +43,36 @@ public class ChartViewModel {
         return 0;
     }
 
-    public boolean isInitialized(){
+    public boolean isInitialized() {
         return initialized;
+    }
+
+    public float[] getGridColor() {
+        return gridColor;
+    }
+
+    public float getGridLineWidth() {
+        return gridLineWidth;
+    }
+
+    public float getChartLineWidth() {
+        return chartLineWidth;
+    }
+
+
+    public float getLeftOffset() {
+        return leftOffset;
+    }
+
+    public float getRightOffset() {
+        return rightOffset;
+    }
+
+    public float getBoundWidth() {
+        return boundWidth;
+    }
+
+    public float[] getPreviewOverlayColor() {
+        return previewOverlayColor;
     }
 }

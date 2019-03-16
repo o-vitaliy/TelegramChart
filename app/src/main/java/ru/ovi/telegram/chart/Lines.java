@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lines extends BaseChartElement {
-    private static int STEPS = 5;
-
     private List<Pair<float[], FloatBuffer>> lines = new ArrayList<>();
     private int vertexCount;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
@@ -28,20 +26,20 @@ public class Lines extends BaseChartElement {
         if (lines.isEmpty()) return;
 
         GLES20.glUseProgram(mProgram);
-        GLES20.glLineWidth(6f);
-        int mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glLineWidth(chartViewModel.getChartLineWidth());
+        int positionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
+        GLES20.glEnableVertexAttribArray(positionHandle);
 
         Stream.of(lines).forEach(line -> {
             GLES20.glVertexAttribPointer(
-                    mPositionHandle, COORDS_PER_VERTEX,
+                    positionHandle, COORDS_PER_VERTEX,
                     GLES20.GL_FLOAT, false,
                     vertexStride, line.second);
             int colorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
             GLES20.glUniform4fv(colorHandle, 1, line.first, 0);
             GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, vertexCount);
         });
-        GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glDisableVertexAttribArray(positionHandle);
     }
 
     @Override
@@ -65,14 +63,7 @@ public class Lines extends BaseChartElement {
                 coordinates[i * COORDS_PER_VERTEX] = converter.horizontalValueToRelative(xP);
                 coordinates[i * COORDS_PER_VERTEX + 1] = converter.verticalValueToRelative(yP);
             }
-            // initialize vertex byte buffer for shape coordinates
-            ByteBuffer bb = ByteBuffer.allocateDirect(
-                    // (# of coordinate values * 4 bytes per float)
-                    coordinates.length * 4);
-            bb.order(ByteOrder.nativeOrder());
-            FloatBuffer vertexBuffer = bb.asFloatBuffer();
-            vertexBuffer.put(coordinates);
-            vertexBuffer.position(0);
+            FloatBuffer vertexBuffer = ChartValuesUtil.coordinatesToBuffer(coordinates);
 
             lines.add(new Pair<>(
                     ChartValuesUtil.colorToFloatArray(line.getColor()),
