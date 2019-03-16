@@ -26,7 +26,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 unused) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        GLES20.glLineWidth(10f);
+
 
         Stream.of(elementList).forEach(BaseChartElement::draw);
     }
@@ -39,7 +39,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         gridLines = new GridLines(new RectF(100f, 0f, (float) width, (float) height), converter, viewModel);
         elementList.add(gridLines);
 
-        lines = new Lines(new RectF(100f, 0f, (float) width, (float) height), converter, viewModel);
+        lines = new Lines(new RectF(100f, 0f, (float) width, (float) height -200), converter, viewModel);
+        elementList.add(lines);
+
+
+        lines = new Lines(new RectF(100f, height -200, (float) width, (float) height), converter, viewModel);
         elementList.add(lines);
 
         if (viewModel.isInitialized()) {

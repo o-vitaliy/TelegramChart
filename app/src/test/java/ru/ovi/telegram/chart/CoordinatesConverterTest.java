@@ -17,31 +17,41 @@ public class CoordinatesConverterTest {
 
     @Test
     public void horizontalValueToRelative1() {
-        assertEquals(-1, converter.verticalValueToRelative(0), DELTA);
+        assertEquals(-1, converter.horizontalValueToRelative(0), DELTA);
     }
 
     @Test
     public void horizontalValueToRelative2() {
-        assertEquals(0, converter.verticalValueToRelative(50), DELTA);
+        assertEquals(0, converter.horizontalValueToRelative(50), DELTA);
     }
 
     @Test
     public void horizontalValueToRelative3() {
-        assertEquals(1, converter.verticalValueToRelative(100), DELTA);
+        assertEquals(1, converter.horizontalValueToRelative(100), DELTA);
     }
 
     @Test
     public void verticalValueToRelative1() {
-        assertEquals(-1, converter.verticalValueToRelative(0), DELTA);
-    }
+        assertEquals(1, converter.verticalValueToRelative(0), DELTA);
+    } @Test
 
-    @Test
+
     public void verticalValueToRelative2() {
-        assertEquals(0, converter.verticalValueToRelative(50), DELTA);
+        assertEquals(.5, converter.verticalValueToRelative(25), DELTA);
     }
 
     @Test
     public void verticalValueToRelative3() {
-        assertEquals(1, converter.verticalValueToRelative(100), DELTA);
+        assertEquals(0, converter.verticalValueToRelative(50), DELTA);
+    }
+
+    @Test
+    public void verticalValueToRelative4() {
+        assertEquals(-.5, converter.verticalValueToRelative(75), DELTA);
+    }
+
+    @Test
+    public void verticalValueToRelative5() {
+        assertEquals(-1, converter.verticalValueToRelative(100), DELTA);
     }
 }

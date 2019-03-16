@@ -15,7 +15,7 @@ public class CoordinatesConverter {
     }
 
     public float verticalValueToRelative(float value) {
-        return value / height * 2 - 1;
+        return 1  - value / height * 2;
     }
 
 }

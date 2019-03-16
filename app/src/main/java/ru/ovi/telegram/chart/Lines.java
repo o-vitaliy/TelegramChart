@@ -28,6 +28,7 @@ public class Lines extends BaseChartElement {
         if (lines.isEmpty()) return;
 
         GLES20.glUseProgram(mProgram);
+        GLES20.glLineWidth(6f);
         int mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 

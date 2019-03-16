@@ -1,5 +1,6 @@
 package ru.ovi.telegram.chart;
 
+import android.graphics.Color;
 import android.graphics.RectF;
 import android.opengl.GLES20;
 
@@ -10,7 +11,7 @@ import java.nio.FloatBuffer;
 public class GridLines extends BaseChartElement {
     private static int STEPS = 5;
 
-    float color[] = {1f, 0f, 0, 1.0f};
+    final float color[] = ChartValuesUtil.colorToFloatArray(Color.parseColor("#F0CCCCCC"));
     private FloatBuffer vertexBuffer;
     private int vertexCount;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
@@ -24,6 +25,7 @@ public class GridLines extends BaseChartElement {
         if (vertexBuffer == null) return;
 
         GLES20.glUseProgram(mProgram);
+        GLES20.glLineWidth(2f);
         int mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(
