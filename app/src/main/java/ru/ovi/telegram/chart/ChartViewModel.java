@@ -19,7 +19,8 @@ public class ChartViewModel {
     double maxValue;
     double minValue;
     private float leftOffset = 100;
-    private float rightOffset = 200;
+    private float rightOffset = 500;
+    private float maxRightOffset;
 
     public void init(ChartData chartData) {
         this.chartData = chartData;
@@ -74,5 +75,19 @@ public class ChartViewModel {
 
     public float[] getPreviewOverlayColor() {
         return previewOverlayColor;
+    }
+
+    public void changeLeftOffset(float delta) {
+        leftOffset = Math.max(0, leftOffset + delta);
+        leftOffset = Math.min(leftOffset, rightOffset - boundWidth * 2);
+    }
+
+    public void changeRightOffset(float delta) {
+        rightOffset = Math.min(rightOffset + delta, maxRightOffset);
+        rightOffset = Math.max(rightOffset, leftOffset + boundWidth * 2);
+    }
+
+    public void setMaxRightOffset(float maxRightOffset) {
+        this.maxRightOffset = maxRightOffset;
     }
 }

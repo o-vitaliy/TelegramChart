@@ -7,11 +7,12 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Preview extends BaseChartElement {
-
+public class Preview extends BaseChartElement implements Touchable {
 
     private PreviewRegionBound leftBound;
     private PreviewRegionBound rightBound;
+    private PreviewOverlay leftOverlay;
+    private PreviewOverlay rightOverlay;
 
     private List<BaseDrawingSubElement> subElements = new ArrayList<>();
 
@@ -44,6 +45,27 @@ public class Preview extends BaseChartElement {
         Stream.of(subElements).forEach(BaseDrawingSubElement::prepareForDraw);
     }
 
+    @Override
+    void update() {
+        float deltaLeft = bounds.left + chartViewModel.getLeftOffset() - leftBound.bounds.left;
+        if (deltaLeft != 0) {
+            leftBound.bounds.offset(deltaLeft, 0);
+            leftOverlay.bounds.right += deltaLeft;
+
+            leftBound.prepareForDraw();
+            leftOverlay.prepareForDraw();
+        }
+
+        float deltaRight = bounds.left + chartViewModel.getRightOffset() - rightBound.bounds.right;
+        if (deltaRight != 0) {
+            rightBound.bounds.offset(deltaRight, 0);
+            rightOverlay.bounds.left += deltaRight;
+
+            rightBound.prepareForDraw();
+            rightOverlay.prepareForDraw();
+        }
+    }
+
     private void prepareGrid() {
         create(subElements, PreviewGrid.class, bounds, converter, chartViewModel);
     }
@@ -61,6 +83,7 @@ public class Preview extends BaseChartElement {
                 converter,
                 chartViewModel
         );
+        leftBound.type = PreviewRegionBoundType.LEFT;
     }
 
     private void prepareRightBound() {
@@ -76,10 +99,11 @@ public class Preview extends BaseChartElement {
                 converter,
                 chartViewModel
         );
+        rightBound.type = PreviewRegionBoundType.RIGHT;
     }
 
     private void prepareLeftOverlay() {
-        create(
+        leftOverlay = create(
                 subElements,
                 PreviewOverlay.class,
                 new RectF(
@@ -94,7 +118,7 @@ public class Preview extends BaseChartElement {
     }
 
     private void prepareRightOverlay() {
-        create(
+        rightOverlay = create(
                 subElements,
                 PreviewOverlay.class,
                 new RectF(
@@ -106,6 +130,11 @@ public class Preview extends BaseChartElement {
                 converter,
                 chartViewModel
         );
+    }
+
+    @Override
+    public Touchable onTouched(float x, float y) {
+        return ChartValuesUtil.findTouched(subElements, x, y);
     }
 
     private static <E extends BaseDrawingSubElement> E create(List<BaseDrawingSubElement> elements, Class<E> eClass, RectF bounds, final CoordinatesConverter converter, final ChartViewModel chartViewModel) {

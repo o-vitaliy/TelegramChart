@@ -2,6 +2,9 @@ package ru.ovi.telegram.chart;
 
 import android.opengl.GLES20;
 import android.util.Log;
+import com.annimon.stream.Stream;
+
+import java.util.List;
 
 class ChartUtils {
     private static final String TAG = "GLRenderer";

@@ -11,12 +11,18 @@ import javax.microedition.khronos.opengles.GL10;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyGLRenderer implements GLSurfaceView.Renderer {
-    private CoordinatesConverter converter = new CoordinatesConverter();
+public class MyGLRenderer implements GLSurfaceView.Renderer, Touchable {
+    private final CoordinatesConverter converter;
+    private final ChartViewModel viewModel;
+
     private GridLines gridLines;
     private Lines lines;
     private List<BaseChartElement> elementList = new ArrayList<>();
-    private ChartViewModel viewModel = new ChartViewModel();
+
+    MyGLRenderer(CoordinatesConverter converter, ChartViewModel viewModel) {
+        this.converter = converter;
+        this.viewModel = viewModel;
+    }
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -47,6 +53,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 
         final RectF previewChartRect = new RectF(100f, height - 200, (float) width, (float) height);
+        viewModel.setMaxRightOffset(previewChartRect.width());
         lines = new Lines(previewChartRect, converter, viewModel);
         elementList.add(lines);
         elementList.add(new Preview(previewChartRect, converter, viewModel));
@@ -59,5 +66,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void setChartData(ChartData chartData) {
         viewModel.init(chartData);
         Stream.of(elementList).forEach(BaseChartElement::prepareForDraw);
+    }
+
+    @Override
+    public Touchable onTouched(float x, float y) {
+        return ChartValuesUtil.findTouched(elementList, x, y);
+    }
+
+    public void update() {
+        Stream.of(elementList).forEach(BaseChartElement::update);
     }
 }

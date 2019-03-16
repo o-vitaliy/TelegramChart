@@ -5,9 +5,9 @@ import android.graphics.RectF;
 import java.lang.reflect.Constructor;
 
 public abstract class BaseDrawingSubElement {
-    protected final RectF bounds;
+    final RectF bounds;
     protected final CoordinatesConverter converter;
-    protected final ChartViewModel chartViewModel;
+     final ChartViewModel chartViewModel;
 
     protected BaseDrawingSubElement(final RectF bounds, final CoordinatesConverter converter, final ChartViewModel chartViewModel) {
         this.bounds = bounds;

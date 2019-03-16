@@ -56,4 +56,9 @@ public class GridLines extends BaseChartElement {
         }
         vertexBuffer = ChartValuesUtil.coordinatesToBuffer(coordinates);
     }
+
+    @Override
+    void update() {
+        prepareForDraw();
+    }
 }

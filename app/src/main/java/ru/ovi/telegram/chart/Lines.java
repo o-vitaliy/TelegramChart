@@ -71,4 +71,9 @@ public class Lines extends BaseChartElement {
             ));
         });
     }
+
+    @Override
+    void update() {
+
+    }
 }

@@ -13,8 +13,9 @@ public abstract class BaseDrawingElement {
         this.chartViewModel = chartViewModel;
     }
 
-
     abstract void draw();
 
     abstract void prepareForDraw();
+
+    abstract void update();
 }

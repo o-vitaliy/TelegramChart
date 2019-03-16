@@ -11,7 +11,8 @@ import java.util.List;
 
 public class ChartValuesUtil {
 
-    private ChartValuesUtil(){}
+    private ChartValuesUtil() {
+    }
 
     static double maxInLines(List<GraphLine> lines) {
         return Stream.of(lines).map(line -> max(line.getValues())).reduce(Math::max).orElse(Double.MIN_VALUE);
@@ -48,7 +49,7 @@ public class ChartValuesUtil {
     }
 
 
-    static FloatBuffer coordinatesToBuffer(float[] coordinates){
+    static FloatBuffer coordinatesToBuffer(float[] coordinates) {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
@@ -61,5 +62,12 @@ public class ChartValuesUtil {
         return vertexBuffer;
     }
 
-
+    static Touchable findTouched(List<?> items, float x, float y) {
+        return Stream.of(items)
+                .filter(e -> e instanceof Touchable)
+                .map(e -> (Touchable) e)
+                .map(t -> t.onTouched(x, y))
+                .withoutNulls()
+                .findFirst().orElse(null);
+    }
 }
