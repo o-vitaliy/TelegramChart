@@ -40,8 +40,10 @@ public class ChartView extends GLSurfaceView {
 
             case MotionEvent.ACTION_MOVE:
                 float dx = x - mPreviousX;
-                moved(touchable, dx);
-                requestRender();
+                if (dx != 0) {
+                    moved(touchable, dx);
+                    requestRender();
+                }
                 break;
 
             default:
@@ -66,6 +68,9 @@ public class ChartView extends GLSurfaceView {
             else
                 viewModel.changeRightOffset(delta);
 
+            renderer.update();
+        } else if (touchable instanceof PreviewDraggingArea) {
+            viewModel.changeOffset(delta);
             renderer.update();
         }
     }

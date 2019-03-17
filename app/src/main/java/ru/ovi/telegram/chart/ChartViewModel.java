@@ -21,6 +21,7 @@ public class ChartViewModel {
     private float leftOffset = 100;
     private float rightOffset = 500;
     private float maxRightOffset;
+    private float minOffset = 100;
 
     public void init(ChartData chartData) {
         this.chartData = chartData;
@@ -89,5 +90,16 @@ public class ChartViewModel {
 
     public void setMaxRightOffset(float maxRightOffset) {
         this.maxRightOffset = maxRightOffset;
+    }
+
+    public void changeOffset(float delta) {
+        float boundsDelta = rightOffset - leftOffset;
+        if (delta > 0) {
+            changeRightOffset(delta);
+            leftOffset = rightOffset - boundsDelta;
+        } else {
+            changeLeftOffset(delta);
+            rightOffset = leftOffset + boundsDelta;
+        }
     }
 }

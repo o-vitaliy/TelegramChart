@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Preview extends BaseChartElement implements Touchable {
 
+    private PreviewDraggingArea draggingArea;
     private PreviewRegionBound leftBound;
     private PreviewRegionBound rightBound;
     private PreviewOverlay leftOverlay;
@@ -41,6 +42,7 @@ public class Preview extends BaseChartElement implements Touchable {
         prepareRightBound();
         prepareLeftOverlay();
         prepareRightOverlay();
+        prepareDraggingArea();
 
         Stream.of(subElements).forEach(BaseDrawingSubElement::prepareForDraw);
     }
@@ -64,6 +66,9 @@ public class Preview extends BaseChartElement implements Touchable {
             rightBound.prepareForDraw();
             rightOverlay.prepareForDraw();
         }
+
+        draggingArea.bounds.left = bounds.left + chartViewModel.getLeftOffset();
+        draggingArea.bounds.right = bounds.left + chartViewModel.getRightOffset();
     }
 
     private void prepareGrid() {
@@ -125,6 +130,21 @@ public class Preview extends BaseChartElement implements Touchable {
                         bounds.left + chartViewModel.getRightOffset(),
                         bounds.top,
                         bounds.right,
+                        bounds.bottom
+                ),
+                converter,
+                chartViewModel
+        );
+    }
+
+    private void prepareDraggingArea() {
+        draggingArea = create(
+                subElements,
+                PreviewDraggingArea.class,
+                new RectF(
+                        bounds.left + chartViewModel.getLeftOffset(),
+                        bounds.top,
+                        bounds.left + chartViewModel.getRightOffset(),
                         bounds.bottom
                 ),
                 converter,
