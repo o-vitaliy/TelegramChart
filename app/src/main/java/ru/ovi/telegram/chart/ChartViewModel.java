@@ -37,7 +37,7 @@ public class ChartViewModel {
         return chartData.getOrdinates();
     }
 
-    public int getOnScreenItemsCount() {
+    public int getItemsCount() {
         return chartData.getAbscissa().getValues().size();
     }
 
@@ -60,7 +60,6 @@ public class ChartViewModel {
     public float getChartLineWidth() {
         return chartLineWidth;
     }
-
 
     public float getLeftOffset() {
         return leftOffset;
@@ -90,6 +89,8 @@ public class ChartViewModel {
 
     public void setMaxRightOffset(float maxRightOffset) {
         this.maxRightOffset = maxRightOffset;
+        rightOffset = maxRightOffset;
+        leftOffset = maxRightOffset - minOffset;
     }
 
     public void changeOffset(float delta) {

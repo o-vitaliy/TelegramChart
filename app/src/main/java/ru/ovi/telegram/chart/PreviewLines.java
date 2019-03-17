@@ -10,12 +10,12 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lines extends BaseChartElement {
+public class PreviewLines extends BaseChartElement {
     private List<Pair<float[], FloatBuffer>> lines = new ArrayList<>();
     private int vertexCount;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    public Lines(RectF bounds, CoordinatesConverter converter, ChartViewModel chartViewModel) {
+    public PreviewLines(RectF bounds, CoordinatesConverter converter, ChartViewModel chartViewModel) {
         super(bounds, converter, chartViewModel);
     }
 
@@ -51,16 +51,12 @@ public class Lines extends BaseChartElement {
         float height = bounds.height();
         float width = bounds.width();
 
-        float previewWidth = chartViewModel.getRightOffset() - chartViewModel.getLeftOffset();
-        float ratio = width / previewWidth;
-        float xOffset = chartViewModel.getLeftOffset() * ratio;
-
-        final float xStep = width / (vertexCount - 1) * ratio;
+        final float xStep = width / (vertexCount - 1);
         final float valuesDelta = (float) (chartViewModel.maxValue - chartViewModel.minValue);
 
         Stream.of(chartLine).forEach(line -> {
             for (int i = 0; i < vertexCount; i++) {
-                float xP = bounds.left + chartViewModel.getItemsOffset() + xStep * i - xOffset;
+                float xP = bounds.left + chartViewModel.getItemsOffset() + xStep * i;
                 float yP = bounds.top + height * ((line.getValues().get(i).floatValue() - (float) chartViewModel.minValue) / valuesDelta);
                 coordinates[i * COORDS_PER_VERTEX] = converter.horizontalValueToRelative(xP);
                 coordinates[i * COORDS_PER_VERTEX + 1] = converter.verticalValueToRelative(yP);
@@ -76,7 +72,6 @@ public class Lines extends BaseChartElement {
 
     @Override
     void update() {
-        prepareForDraw();
+
     }
 }
-

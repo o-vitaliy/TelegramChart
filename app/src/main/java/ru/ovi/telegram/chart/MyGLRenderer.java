@@ -54,8 +54,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer, Touchable {
 
         final RectF previewChartRect = new RectF(100f, height - 200, (float) width, (float) height);
         viewModel.setMaxRightOffset(previewChartRect.width());
-        lines = new Lines(previewChartRect, converter, viewModel);
-        elementList.add(lines);
+        elementList.add(new PreviewLines(previewChartRect, converter, viewModel));
         elementList.add(new Preview(previewChartRect, converter, viewModel));
 
         if (viewModel.isInitialized()) {
