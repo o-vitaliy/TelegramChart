@@ -23,6 +23,9 @@ public class ChartViewModel {
     private float maxRightOffset;
     private float minOffset = 100;
 
+    private float minValueInOffset;
+    private float maxValueInOffset;
+
     public void init(ChartData chartData) {
         this.chartData = chartData;
         final List<GraphLine> lines = chartData.getOrdinates();
@@ -31,6 +34,8 @@ public class ChartViewModel {
         minValue = ChartValuesUtil.minInLines(lines);
 
         initialized = true;
+
+        findMinMaxValueInOffset();
     }
 
     public List<GraphLine> getOrdinates() {
@@ -80,17 +85,20 @@ public class ChartViewModel {
     public void changeLeftOffset(float delta) {
         leftOffset = Math.max(0, leftOffset + delta);
         leftOffset = Math.min(leftOffset, rightOffset - boundWidth * 2);
+        findMinMaxValueInOffset();
     }
 
     public void changeRightOffset(float delta) {
         rightOffset = Math.min(rightOffset + delta, maxRightOffset);
         rightOffset = Math.max(rightOffset, leftOffset + boundWidth * 2);
+        findMinMaxValueInOffset();
     }
 
     public void setMaxRightOffset(float maxRightOffset) {
         this.maxRightOffset = maxRightOffset;
         rightOffset = maxRightOffset;
         leftOffset = maxRightOffset - minOffset;
+        findMinMaxValueInOffset();
     }
 
     public void changeOffset(float delta) {
@@ -102,5 +110,25 @@ public class ChartViewModel {
             changeLeftOffset(delta);
             rightOffset = leftOffset + boundsDelta;
         }
+        findMinMaxValueInOffset();
+    }
+
+    private void findMinMaxValueInOffset() {
+        if (chartData == null) return;
+        final int count = getItemsCount();
+        int leftCountOffset = (int) Math.floor(count * leftOffset / maxRightOffset);
+        int rightCountOffset = (int) Math.ceil(count * rightOffset / maxRightOffset);
+        final List<GraphLine> lines = chartData.getOrdinates();
+
+        maxValueInOffset = (float) ChartValuesUtil.maxInLines(lines, leftCountOffset, rightCountOffset);
+        minValueInOffset = (float) ChartValuesUtil.minInLines(lines, leftCountOffset, rightCountOffset);
+    }
+
+    public float getMinValueInOffset() {
+        return minValueInOffset;
+    }
+
+    public float getMaxValueInOffset() {
+        return maxValueInOffset;
     }
 }

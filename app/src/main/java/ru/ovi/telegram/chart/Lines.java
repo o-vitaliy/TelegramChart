@@ -56,12 +56,12 @@ public class Lines extends BaseChartElement {
         float xOffset = chartViewModel.getLeftOffset() * ratio;
 
         final float xStep = width / (vertexCount - 1) * ratio;
-        final float valuesDelta = (float) (chartViewModel.maxValue - chartViewModel.minValue);
+        final float valuesDelta = chartViewModel.getMaxValueInOffset() - chartViewModel.getMinValueInOffset();
 
         Stream.of(chartLine).forEach(line -> {
             for (int i = 0; i < vertexCount; i++) {
                 float xP = bounds.left + chartViewModel.getItemsOffset() + xStep * i - xOffset;
-                float yP = bounds.top + height * ((line.getValues().get(i).floatValue() - (float) chartViewModel.minValue) / valuesDelta);
+                float yP = bounds.top + height * ((line.getValues().get(i).floatValue() - chartViewModel.getMinValueInOffset()) / valuesDelta);
                 coordinates[i * COORDS_PER_VERTEX] = converter.horizontalValueToRelative(xP);
                 coordinates[i * COORDS_PER_VERTEX + 1] = converter.verticalValueToRelative(yP);
             }

@@ -15,27 +15,57 @@ public class ChartValuesUtil {
     }
 
     static double maxInLines(List<GraphLine> lines) {
-        return Stream.of(lines).map(line -> max(line.getValues())).reduce(Math::max).orElse(Double.MIN_VALUE);
+        if (lines.size() > 0) {
+            return maxInLines(lines, 0, lines.get(0).getValues().size());
+        }
+        return Double.MIN_VALUE;
     }
 
     static double minInLines(List<GraphLine> lines) {
-        return Stream.of(lines).map(line -> min(line.getValues())).reduce(Math::min).orElse(Double.MAX_VALUE);
+        if (lines.size() > 0) {
+            return minInLines(lines, 0, lines.get(0).getValues().size());
+        }
+        return Double.MAX_VALUE;
     }
 
-    static double maxInList(List<List<Double>> lines) {
-        return Stream.of(lines).map(ChartValuesUtil::max).reduce(Math::max).orElse(Double.MIN_VALUE);
+    static double maxInLines(List<GraphLine> lines, int fromIndex, int toIndex) {
+        return Stream.of(lines)
+                .map(line -> max(line.getValues(), fromIndex, toIndex))
+                .reduce(Math::max)
+                .orElse(Double.MIN_VALUE);
     }
 
-    static double minInList(List<List<Double>> lines) {
-        return Stream.of(lines).map(ChartValuesUtil::min).reduce(Math::min).orElse(Double.MAX_VALUE);
+    static double minInLines(List<GraphLine> lines, int fromIndex, int toIndex) {
+        return Stream.of(lines)
+                .map(line -> min(line.getValues(), fromIndex, toIndex))
+                .reduce(Math::min)
+                .orElse(Double.MAX_VALUE);
     }
 
-    static double max(List<Double> values) {
-        return Stream.of(values).reduce(Math::max).orElse(Double.MIN_VALUE);
+
+    //--
+    static double maxInList(List<List<Double>> lines, int fromIndex, int toIndex) {
+        return Stream.of(lines)
+                .map(l -> max(l, fromIndex, toIndex))
+                .reduce(Math::max)
+                .orElse(Double.MIN_VALUE);
     }
 
-    static double min(List<Double> values) {
-        return Stream.of(values).reduce(Math::min).orElse(Double.MAX_VALUE);
+    static double minInList(List<List<Double>> lines, int fromIndex, int toIndex) {
+        return Stream.of(lines)
+                .map(l -> min(l, fromIndex, toIndex))
+                .reduce(Math::min)
+                .orElse(Double.MAX_VALUE);
+    }
+
+
+    //--
+    static double max(List<Double> values, int fromIndex, int toIndex) {
+        return Stream.of(values.subList(fromIndex, toIndex)).reduce(Math::max).orElse(Double.MIN_VALUE);
+    }
+
+    static double min(List<Double> values, int fromIndex, int toIndex) {
+        return Stream.of(values.subList(fromIndex, toIndex)).reduce(Math::min).orElse(Double.MAX_VALUE);
     }
 
     static float[] colorToFloatArray(int color) {
