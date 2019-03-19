@@ -14,6 +14,7 @@ public class ChartView extends GLSurfaceView {
 
     private MyGLRenderer renderer;
 
+
     public ChartView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         setEGLContextClientVersion(2);

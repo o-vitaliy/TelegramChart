@@ -9,23 +9,30 @@ import ru.ovi.telegram.chart.data.Parser
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        INSTANCE = this
         LoadChartDataTask().execute();
     }
 
-   inner class LoadChartDataTask: AsyncTask<Unit, Unit, List<ChartData>>(){
+    inner class LoadChartDataTask : AsyncTask<Unit, Unit, List<ChartData>>() {
         override fun doInBackground(vararg params: Unit?): List<ChartData> {
             return Parser().parse(AssetsFileReader().parse(this@MainActivity, "chart_data.json"))
         }
 
-       override fun onPostExecute(result: List<ChartData>?) {
-           super.onPostExecute(result)
-           result?.get(0)?.let {
-               (findViewById<ChartView>(R.id.chartView)).setChartData(it)
-           }
-       }
+        override fun onPostExecute(result: List<ChartData>?) {
+            super.onPostExecute(result)
+            result?.get(0)?.let {
+                (findViewById<ChartView>(R.id.chartView)).setChartData(it)
+            }
+        }
+    }
+
+
+    companion object {
+        @JvmStatic
+        lateinit var INSTANCE: MainActivity
     }
 }

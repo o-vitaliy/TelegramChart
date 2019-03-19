@@ -4,6 +4,12 @@ public class CoordinatesConverter {
 
     private float width;
     private float height;
+    public static CoordinatesConverter INSTANCE;
+
+
+    CoordinatesConverter(){
+        INSTANCE = this;
+    }
 
     public void setNewSizes(float width, float height) {
         this.width = width;
@@ -18,4 +24,11 @@ public class CoordinatesConverter {
         return value / height * 2 - 1;
     }
 
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
 }

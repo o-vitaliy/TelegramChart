@@ -3,7 +3,11 @@ package ru.ovi.telegram.chart;
 import android.opengl.GLES20;
 import android.util.Log;
 
-class ChartUtils {
+import static android.opengl.GLES20.*;
+import static android.opengl.GLES20.GL_COMPILE_STATUS;
+import static android.opengl.GLES20.glDeleteShader;
+
+public class ChartUtils {
     private static final String TAG = "GLRenderer";
 
     /**
@@ -42,4 +46,5 @@ class ChartUtils {
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }
+
 }

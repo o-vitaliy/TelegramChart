@@ -17,6 +17,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private Lines lines;
     private List<BaseChartElement> elementList = new ArrayList<>();
     private ChartViewModel viewModel = new ChartViewModel();
+    private Labels labels;
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -28,7 +29,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         GLES20.glLineWidth(10f);
 
-        Stream.of(elementList).forEach(BaseChartElement::draw);
+        //  Stream.of(elementList).forEach(BaseChartElement::draw);
+
+        labels.draw();
     }
 
     @Override
@@ -45,6 +48,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         if (viewModel.isInitialized()) {
             Stream.of(elementList).forEach(BaseChartElement::prepareForDraw);
         }
+
+        labels = new Labels();
     }
 
     public void setChartData(ChartData chartData) {
