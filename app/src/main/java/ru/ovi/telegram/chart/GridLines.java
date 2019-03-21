@@ -5,9 +5,9 @@ import android.opengl.GLES20;
 
 import java.nio.FloatBuffer;
 
-public class GridLines extends BaseChartElement {
-    private static int STEPS = 5;
+import static ru.ovi.telegram.chart.ChartViewModel.GRIDS_LINE_COUNT;
 
+public class GridLines extends BaseChartElement {
     private FloatBuffer vertexBuffer;
     private int vertexCount;
 
@@ -36,14 +36,14 @@ public class GridLines extends BaseChartElement {
 
     @Override
     public void prepareForDraw() {
-        vertexCount = STEPS;
-        final float[] coordinates = new float[STEPS * COORDS_PER_VERTEX * 2];
+        vertexCount = GRIDS_LINE_COUNT;
+        final float[] coordinates = new float[GRIDS_LINE_COUNT * COORDS_PER_VERTEX * 2];
 
         float height = bounds.height();
 
         //final double delta = maxValue - minValue;
-        //final double step = delta / STEPS;
-        final float stepHeight = height / STEPS;
+        //final double step = delta / GRIDS_LINE_COUNT;
+        final float stepHeight = height / GRIDS_LINE_COUNT;
 
         float y = bounds.bottom - stepHeight / 2;
         for (int i = 0; i < coordinates.length; i += 4) {

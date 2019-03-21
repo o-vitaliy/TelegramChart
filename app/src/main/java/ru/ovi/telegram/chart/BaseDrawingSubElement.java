@@ -7,7 +7,7 @@ import java.lang.reflect.Constructor;
 public abstract class BaseDrawingSubElement {
     final RectF bounds;
     protected final CoordinatesConverter converter;
-     final ChartViewModel chartViewModel;
+    final ChartViewModel chartViewModel;
 
     protected BaseDrawingSubElement(final RectF bounds, final CoordinatesConverter converter, final ChartViewModel chartViewModel) {
         this.bounds = bounds;
@@ -19,7 +19,6 @@ public abstract class BaseDrawingSubElement {
     abstract void draw(int positionHandle, int colorHandle);
 
     abstract void prepareForDraw();
-
 
     public static <E extends BaseDrawingSubElement> E create(final Class<E> eClass, final RectF bounds, final CoordinatesConverter converter, final ChartViewModel chartViewModel) {
         try {

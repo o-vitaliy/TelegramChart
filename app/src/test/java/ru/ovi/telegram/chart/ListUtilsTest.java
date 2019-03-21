@@ -2,14 +2,12 @@ package ru.ovi.telegram.chart;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class ChartValuesUtilTest {
+public class ListUtilsTest {
     private final double MAX_VALUE = 100;
     private final double MAX_VALUE_2 = 50;
     private final double MIN_VALUE = -100;
@@ -20,41 +18,41 @@ public class ChartValuesUtilTest {
 
     @Test
     public void maxInList() {
-        assertEquals(MAX_VALUE, ChartValuesUtil.maxInList(list3, 0, list1.size()), .1);
+        assertEquals(MAX_VALUE, ListUtils.maxInList(list3, 0, list1.size()), .1);
     }
 
     @Test
     public void maxInList2() {
-        assertEquals(MAX_VALUE_2, ChartValuesUtil.maxInList(list3, 0, list1.size() - 1), .1);
+        assertEquals(MAX_VALUE_2, ListUtils.maxInList(list3, 0, list1.size() - 1), .1);
     }
 
     @Test
     public void minInList() {
-        assertEquals(MIN_VALUE, ChartValuesUtil.minInList(list3, 0, list1.size()), .1);
+        assertEquals(MIN_VALUE, ListUtils.minInList(list3, 0, list1.size()), .1);
     }
 
     @Test
     public void minInList2() {
-        assertEquals(MIN_VALUE_2, ChartValuesUtil.minInList(list3, 0, list2.size() - 1), .1);
+        assertEquals(MIN_VALUE_2, ListUtils.minInList(list3, 0, list2.size() - 1), .1);
     }
 
     @Test
     public void max() {
-        assertEquals(MAX_VALUE, ChartValuesUtil.max(list1, 0, list1.size()), .1);
+        assertEquals(MAX_VALUE, ListUtils.max(list1, 0, list1.size()), .1);
     }
 
     @Test
     public void max2() {
-        assertEquals(MAX_VALUE_2, ChartValuesUtil.max(list1, 0, list1.size() - 1), .1);
+        assertEquals(MAX_VALUE_2, ListUtils.max(list1, 0, list1.size() - 1), .1);
     }
 
     @Test
     public void min() {
-        assertEquals(MIN_VALUE, ChartValuesUtil.min(list2, 0, list1.size()), .1);
+        assertEquals(MIN_VALUE, ListUtils.min(list2, 0, list1.size()), .1);
     }
 
     @Test
     public void min2() {
-        assertEquals(MIN_VALUE_2, ChartValuesUtil.min(list2, 0, list2.size() - 1), .1);
+        assertEquals(MIN_VALUE_2, ListUtils.min(list2, 0, list2.size() - 1), .1);
     }
 }

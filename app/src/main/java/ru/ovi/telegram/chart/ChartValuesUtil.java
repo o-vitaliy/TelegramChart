@@ -30,43 +30,18 @@ public class ChartValuesUtil {
 
     static double maxInLines(List<GraphLine> lines, int fromIndex, int toIndex) {
         return Stream.of(lines)
-                .map(line -> max(line.getValues(), fromIndex, toIndex))
+                .map(line -> ListUtils.max(line.getValues(), fromIndex, toIndex))
                 .reduce(Math::max)
                 .orElse(Double.MIN_VALUE);
     }
 
     static double minInLines(List<GraphLine> lines, int fromIndex, int toIndex) {
         return Stream.of(lines)
-                .map(line -> min(line.getValues(), fromIndex, toIndex))
+                .map(line -> ListUtils.min(line.getValues(), fromIndex, toIndex))
                 .reduce(Math::min)
                 .orElse(Double.MAX_VALUE);
     }
 
-
-    //--
-    static double maxInList(List<List<Double>> lines, int fromIndex, int toIndex) {
-        return Stream.of(lines)
-                .map(l -> max(l, fromIndex, toIndex))
-                .reduce(Math::max)
-                .orElse(Double.MIN_VALUE);
-    }
-
-    static double minInList(List<List<Double>> lines, int fromIndex, int toIndex) {
-        return Stream.of(lines)
-                .map(l -> min(l, fromIndex, toIndex))
-                .reduce(Math::min)
-                .orElse(Double.MAX_VALUE);
-    }
-
-
-    //--
-    static double max(List<Double> values, int fromIndex, int toIndex) {
-        return Stream.of(values.subList(fromIndex, toIndex)).reduce(Math::max).orElse(Double.MIN_VALUE);
-    }
-
-    static double min(List<Double> values, int fromIndex, int toIndex) {
-        return Stream.of(values.subList(fromIndex, toIndex)).reduce(Math::min).orElse(Double.MAX_VALUE);
-    }
 
     static float[] colorToFloatArray(int color) {
         //RGBA
